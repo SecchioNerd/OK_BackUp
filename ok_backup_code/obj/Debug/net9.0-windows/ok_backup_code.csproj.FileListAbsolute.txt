@@ -1,0 +1,15 @@
+C:\Users\tonio\OneDrive\Desktop\OK_BackUp\ok_backup_code\bin\Debug\net9.0-windows\ok_backup_code.exe
+C:\Users\tonio\OneDrive\Desktop\OK_BackUp\ok_backup_code\bin\Debug\net9.0-windows\ok_backup_code.deps.json
+C:\Users\tonio\OneDrive\Desktop\OK_BackUp\ok_backup_code\bin\Debug\net9.0-windows\ok_backup_code.runtimeconfig.json
+C:\Users\tonio\OneDrive\Desktop\OK_BackUp\ok_backup_code\bin\Debug\net9.0-windows\ok_backup_code.dll
+C:\Users\tonio\OneDrive\Desktop\OK_BackUp\ok_backup_code\bin\Debug\net9.0-windows\ok_backup_code.pdb
+C:\Users\tonio\OneDrive\Desktop\OK_BackUp\ok_backup_code\obj\Debug\net9.0-windows\ok_backup_code.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\tonio\OneDrive\Desktop\OK_BackUp\ok_backup_code\obj\Debug\net9.0-windows\ok_backup_code.AssemblyInfoInputs.cache
+C:\Users\tonio\OneDrive\Desktop\OK_BackUp\ok_backup_code\obj\Debug\net9.0-windows\ok_backup_code.AssemblyInfo.cs
+C:\Users\tonio\OneDrive\Desktop\OK_BackUp\ok_backup_code\obj\Debug\net9.0-windows\ok_backup_code.csproj.CoreCompileInputs.cache
+C:\Users\tonio\OneDrive\Desktop\OK_BackUp\ok_backup_code\obj\Debug\net9.0-windows\ok_backup_code.sourcelink.json
+C:\Users\tonio\OneDrive\Desktop\OK_BackUp\ok_backup_code\obj\Debug\net9.0-windows\ok_backup_code.dll
+C:\Users\tonio\OneDrive\Desktop\OK_BackUp\ok_backup_code\obj\Debug\net9.0-windows\refint\ok_backup_code.dll
+C:\Users\tonio\OneDrive\Desktop\OK_BackUp\ok_backup_code\obj\Debug\net9.0-windows\ok_backup_code.pdb
+C:\Users\tonio\OneDrive\Desktop\OK_BackUp\ok_backup_code\obj\Debug\net9.0-windows\ok_backup_code.genruntimeconfig.cache
+C:\Users\tonio\OneDrive\Desktop\OK_BackUp\ok_backup_code\obj\Debug\net9.0-windows\ref\ok_backup_code.dll

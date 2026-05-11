@@ -1,0 +1,94 @@
+//scoreggia di topo
+
+using System;
+using System.IO;
+using System.IO.Compression;
+
+namespace ok_backup_code;
+
+public class GestioneFS
+{
+    private const string registroArchivio = "register.txt";
+
+    //Path Dir          =       dove è la cartella di cui fare il backUp
+    //Path Archivio     =       dove va salvato lo zip del 
+    public void CreaBackUp(string pathDir,string pathArchivio,string nameArchivio,string nameBackUp)
+    {
+        string pathRegistroArchivio = Path.Combine(pathArchivio,registroArchivio);
+        if (!Directory.Exists(pathArchivio))
+        {
+            Directory.CreateDirectory(pathArchivio);
+            File.AppendAllText("@C:Program/OK_BackUp/elencoArchivi.txt",pathArchivio+";"+Environment.NewLine);
+        }
+
+        //creo lo zip nella cartella archivio
+        ZipFile.CreateFromDirectory(pathDir,pathArchivio); //RINOMINARE
+
+        //va agginta la parte del controllo doppi
+        File.AppendAllText(pathRegistroArchivio,"<"+nameArchivio+"><"+pathArchivio+";"+Environment.NewLine);
+    }
+
+    public void RipristinaCartella(string nameBackUp,string pathArchivio, bool sovrascrittura)
+    {
+        string pathEstrazione = Path.Combine(pathArchivio,(nameBackUp+".zip"));
+        string pathRegistroArchivio = Path.Combine(pathArchivio,registroArchivio);
+        string contenutoRegistro = File.ReadAllText(pathRegistroArchivio);
+        string pathRipristino="";
+        
+        List<Campo> registro = stringToList(contenutoRegistro);
+
+        foreach(Campo campoRegistro in registro)
+        {
+            if(nameBackUp.Equals(campoRegistro.nome))
+                pathRipristino=campoRegistro.pathRipristino;
+        }
+
+        //viene sovrascritto tutto se ( Sovrascrittura == true )
+        ZipFile.ExtractToDirectory(pathRegistroArchivio,pathRipristino,sovrascrittura);
+    }
+
+    public static List<Campo> stringToList(string stringaRegistro)
+    {
+        List<Campo> registro = new List<Campo>();
+        Campo campoRegistro =new Campo("","");//elemento di ogni registro
+        int contaMin=0;
+        int contaMax=0;
+
+        foreach(char carattere in stringaRegistro)
+        {
+            switch (carattere)
+            {
+                case '<':
+                    contaMin++;
+                    break;
+                case '>':
+                    contaMax++;
+                    break;
+                case ';':
+                    registro.Add(campoRegistro);
+                    campoRegistro = new Campo("","");
+                    break;
+                default:
+                    if(contaMin==1 && contaMax==0)
+                        campoRegistro.nome+=carattere;
+                    else if(contaMin==2 && contaMax==1)
+                        campoRegistro.pathRipristino+=carattere;
+                    break;
+            }
+        }
+
+        return registro;
+    }
+}
+
+public class Campo
+{
+    public string nome;
+    public string pathRipristino;
+
+    public Campo(string nome, string pathRipristino)
+    {
+        this.nome=nome;
+        this.pathRipristino=pathRipristino;
+    }
+}
