@@ -92,3 +92,15 @@ public class Campo
         this.pathRipristino=pathRipristino;
     }
 }
+
+public class Archivio
+{
+    public string nome;
+    public string path;
+
+    public Archivio(string nome, string pathRipristino)
+    {
+        this.nome=nome;
+        this.pathRipristino=pathRipristino;
+    }
+}
