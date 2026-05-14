@@ -86,7 +86,7 @@ public class Backup
     public string nome;
     public string pathRipristino;
 
-    public Campo(string nome, string pathRipristino)
+    public Backup(string nome, string pathRipristino)
     {
         this.nome=nome;
         this.pathRipristino=pathRipristino;
