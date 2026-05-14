@@ -18,7 +18,7 @@ public class GestioneFS
         if (!Directory.Exists(pathArchivio))
         {
             Directory.CreateDirectory(pathArchivio);
-            File.AppendAllText("@C:Program/OK_BackUp/elencoArchivi.txt",pathArchivio+";"+Environment.NewLine);
+            File.AppendAllText("@C:Program/OK_BackUp/elencoArchivi.txt",pathArchivio+";"+Environment.NewLine);//aggiungo al registro di elenco degli archivi
         }
 
         //creo lo zip nella cartella archivio
@@ -47,7 +47,7 @@ public class GestioneFS
         ZipFile.ExtractToDirectory(pathRegistroArchivio,pathRipristino,sovrascrittura);
     }
 
-    public static List<Campo> stringToList(string stringaRegistro)
+    private static List<Campo> stringToList(string stringaRegistro)
     {
         List<Campo> registro = new List<Campo>();
         Campo campoRegistro =new Campo("","");//elemento di ogni registro
