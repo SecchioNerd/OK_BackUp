@@ -37,7 +37,7 @@ public class GestioneFS
         
         List<Campo> registro = stringToList(contenutoRegistro);
 
-        foreach(Campo campoRegistro in registro)
+        foreach(Backup campoRegistro in registro)
         {
             if(nameBackUp.Equals(campoRegistro.nome))
                 pathRipristino=campoRegistro.pathRipristino;
@@ -49,8 +49,8 @@ public class GestioneFS
 
     private static List<Campo> stringToList(string stringaRegistro)
     {
-        List<Campo> registro = new List<Campo>();
-        Campo campoRegistro =new Campo("","");//elemento di ogni registro
+        List<Backup> registro = new List<Backup>();
+        Backup campoRegistro =new Campo("","");//elemento di ogni registro
         int contaMin=0;
         int contaMax=0;
 
@@ -81,7 +81,7 @@ public class GestioneFS
     }
 }
 
-public class Campo
+public class Backup
 {
     public string nome;
     public string pathRipristino;
