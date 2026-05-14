@@ -22,7 +22,7 @@ public class GestioneFS
         }
 
         //creo lo zip nella cartella archivio
-        ZipFile.CreateFromDirectory(pathDir,pathArchivio); //RINOMINARE
+        ZipFile.CreateFromDirectory(pathDir,pathArchivio+".zip"); //RINOMINARE
 
         //va agginta la parte del controllo doppi
         File.AppendAllText(pathRegistroArchivio,"<"+nameArchivio+"><"+pathArchivio+";"+Environment.NewLine);
