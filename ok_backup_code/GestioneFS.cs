@@ -47,7 +47,7 @@ public class GestioneFS
         ZipFile.ExtractToDirectory(pathRegistroArchivio,pathRipristino,sovrascrittura);
     }
 
-    private static List<Campo> stringToList(string stringaRegistro)
+    private static List<Backup> stringToList(string stringaRegistro)
     {
         List<Backup> registro = new List<Backup>();
         Backup campoRegistro =new Campo("","");//elemento di ogni registro
