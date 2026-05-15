@@ -4,10 +4,13 @@ using System;
 using System.IO;
 using System.IO.Compression;
 
-namespace ok_backup_code;
+namespace prova;
 
 public class GestioneFS
 {
+    //nell' archivio oltre agli ZIP c'è anche un registro
+    // il registro contiene per ogni ZIP   --->   -<NomeZIP><PathDiEstrazione>;
+    //nome del registro
     private const string registroArchivio = "register.txt";
 
     //Path Dir          =       dove è la cartella di cui fare il backUp
@@ -18,39 +21,86 @@ public class GestioneFS
         if (!Directory.Exists(pathArchivio))
         {
             Directory.CreateDirectory(pathArchivio);
-            File.AppendAllText("@C:Program/OK_BackUp/elencoArchivi.txt",pathArchivio+";"+Environment.NewLine);//aggiungo al registro di elenco degli archivi
+            File.AppendAllText("E:\\program\\elencoArchivi.txt",pathArchivio+";"+Environment.NewLine);
         }
 
         //creo lo zip nella cartella archivio
-        ZipFile.CreateFromDirectory(pathDir,pathArchivio+".zip"); //RINOMINARE
+        ZipFile.CreateFromDirectory(pathDir,pathArchivio+"\\"+nameBackUp+".zip"); //RINOMINARE
 
         //va agginta la parte del controllo doppi
-        File.AppendAllText(pathRegistroArchivio,"<"+nameArchivio+"><"+pathArchivio+";"+Environment.NewLine);
+        File.AppendAllText(pathRegistroArchivio,"<"+nameBackUp+"><"+pathDir+">;"+Environment.NewLine);
     }
 
     public void RipristinaCartella(string nameBackUp,string pathArchivio, bool sovrascrittura)
     {
-        string pathEstrazione = Path.Combine(pathArchivio,(nameBackUp+".zip"));
-        string pathRegistroArchivio = Path.Combine(pathArchivio,registroArchivio);
+        string pathEstrazione = pathArchivio+"\\"+nameBackUp+".zip";
+        string pathRegistroArchivio = pathArchivio+"\\"+registroArchivio;
         string contenutoRegistro = File.ReadAllText(pathRegistroArchivio);
         string pathRipristino="";
         
-        List<Campo> registro = stringToList(contenutoRegistro);
-
+        List<Backup> registro = stringToList(contenutoRegistro);
+        Console.WriteLine("path zip: "+pathEstrazione);
         foreach(Backup campoRegistro in registro)
         {
-            if(nameBackUp.Equals(campoRegistro.nome))
+            Console.WriteLine("nome: "+campoRegistro.nome+"     ||   path: " +campoRegistro.pathRipristino+"\n");
+            if(nameBackUp.Equals(campoRegistro.nome)){
                 pathRipristino=campoRegistro.pathRipristino;
+                break;
+            }
         }
+        Console.WriteLine("path cartella: "+pathRipristino);
 
+        if (sovrascrittura)
+        {
+            Directory.Delete(pathRipristino, true);
+        }
+        else
+        {
+            if(Directory.Exists(pathRipristino)){
+                int copia = 0;
+                do
+                {
+                    copia++;
+                }while(Directory.Exists(pathRipristino+"("+copia+")"));
+            }
+        }
         //viene sovrascritto tutto se ( Sovrascrittura == true )
-        ZipFile.ExtractToDirectory(pathRegistroArchivio,pathRipristino,sovrascrittura);
+        ZipFile.ExtractToDirectory(pathEstrazione,pathRipristino,sovrascrittura);
     }
 
-    private static List<Backup> stringToList(string stringaRegistro)
+    public void eliminaBackUp(string nameBackUp,string pathArchivio)
+    {
+        string pathRegistroArchivio = pathArchivio+"\\"+registroArchivio;
+        string contenutoRegistro = File.ReadAllText(pathRegistroArchivio);
+        Backup eliminazione = new Backup(nameBackUp,"");
+
+        List<Backup> registro = stringToList(contenutoRegistro);
+
+        foreach(Backup campo in registro)
+        {
+            if (nameBackUp.Equals(campo.nome))
+            {
+                eliminazione.pathRipristino =campo.pathRipristino;
+                break;
+            }
+        }
+
+        File.Delete(pathArchivio+"\\"+nameBackUp+".zip");
+        registro.Remove(eliminazione);
+
+        File.Delete(pathRegistroArchivio);
+        File.Create(pathRegistroArchivio);
+
+        foreach (Backup campoRegistro in registro)
+        {
+            File.AppendAllText(pathRegistroArchivio,"<"+campoRegistro.nome+"><"+campoRegistro.pathRipristino+">;"+Environment.NewLine);
+        }
+    }
+
+    public static List<Backup> stringToList(string stringaRegistro)
     {
         List<Backup> registro = new List<Backup>();
-        Backup campoRegistro =new Campo("","");//elemento di ogni registro
+        Backup campoRegistro =new Backup("","");//elemento di ogni registro
         int contaMin=0;
         int contaMax=0;
 
@@ -66,7 +116,7 @@ public class GestioneFS
                     break;
                 case ';':
                     registro.Add(campoRegistro);
-                    campoRegistro = new Campo("","");
+                    campoRegistro = new Backup("","");
                     break;
                 default:
                     if(contaMin==1 && contaMax==0)
@@ -98,9 +148,9 @@ public class Archivio
     public string nome;
     public string path;
 
-    public Archivio(string nome, string pathRipristino)
+    public Archivio(string nome, string path)
     {
         this.nome=nome;
-        this.pathRipristino=pathRipristino;
+        this.path=path;
     }
 }
